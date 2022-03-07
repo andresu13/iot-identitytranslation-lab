@@ -1,3 +1,8 @@
+This lab is based on:
+
+https://github.com/Azure-Samples/azure-iot-edge-identity-translation-lite
+
+
 # Step-by-step manual setup of the IoT Edge Identity Translation Lite sample 
 
 ## Prerequisites
