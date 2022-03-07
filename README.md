@@ -184,6 +184,12 @@ Note: we use the same VM as the one running IoT Edge for ease of use. You could 
 6. You might also want to check the logs for the Event Grid subscription and the Azure Function logs to see how it executed.
 7. To close down the script you can exit the sim_clients.py script running.
 
+
+### New steps (Added by Andres)
+
+1. Download sim_clients.py by running the following command:
+wget https://github.com/andresu13/iot-identitytranslation-lab/blob/main/test/sim_clients.py
+
 ### Clean up resources
 
 To remove everything you created you can simply delete the Resource Group in Azure, both the VM and all Azure services will be deleted.
