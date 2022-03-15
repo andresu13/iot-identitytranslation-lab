@@ -95,46 +95,31 @@ We'll use the Azure Portal to implement this section.
 In this section we will use Visual Studio Code to configure, build and deploy the custom Identity Translation Lite modules. For this sample we also include an MQTT broker to serve as an unsecured entry point to messages from clients. Consider this MQTT broker, as well as the MQTT translation protocol module as samples, these will typically be replaced by your own protocol that you want to bridge.
 
 1. In Visual Studio Code, open the folder /src/edge/ from this cloned repo.
-2. Configure the local environment settings:
-    - Create a new .env file (or rename the supplied `.env.temp` one)
-    - Copy the variables from `.env.temp` and fill in the Azure Container registry username, password and login server with the values you retrieved above.
-3. Login into the server with docker, open the Terminal in Visual Studio Code: `docker login [acr-name].azurecr.io -p "[acr-password]" -u [acr-username]`
-4. Review the deployment template `deployment.debug.template.json`. This one contains three custom modules:
-    - Identity Translation Module (`itm`): this is the core of the solution taking care of doing identity translation, sending a creation message to the cloud (for provisioning and child device assignment), and some caching of messages while the device is under creation.
-    - Protocol Translation Module `ptm`: this is a sample that reads messages from an MQTT Mosquitto broker installed on the Edge as an additional module. It puts messages into edgeHub for further processing by the Identity Translation module.
-    - Mosquitto: this is a standard Eclipse Mosquitto MQTT broker, which unsecure clients (our Python code) will connect to.
-5. In Visual Studio, make sure you configure the Azure IoT Hub extension to be connected to your newly created hub. Open Command Palette, type `Azure IoT Hub: Select IoT Hub`. Select your hub to persist.
-6. Right-click the `deployment.debug.template.json` file and choose 'Build and Push IoT Edge Solution'. This step builds the container images `itm` and `ptm` and pushes them to your configured Azure container registry.
-7. Now we can deploy to our IoT edge VM, there is now a configuration file under `/.confg/deployment.debug.amd64.json`. Right-click this file and choose 'Create deployment for single device'.
-8. In the dropdown on the command palette, select your edge device 'edgeIdentityLite'.
+2. Explore the modules folder to see the different Edge modules that will be deployed to the device. These modules have already been built and the docker images were uploaded to an ACR that setup for this lab.
+3. Ope folder /config from this clone repo to find the `deployment.debug.amd64.json` file.
+4. Right-click on `deployment.debug.amd64.json` file and choose 'Create deployment for single device'.
+5. In the dropdown on the command palette, select your edge device 'edgeIdentityLite'.
 9. Validate the modules got deployed and are running, either through the Azure Portal, or by SSH into your VM.
     - Via Cloud Shell run the ssh command to log into the machine `ssh azureuser@[yourvmipaddress]`
     - Password is 'Passw0rd1234!'
     - Run the command `iotedge list` to view the running modules. You should see five modules running. Note it can take 30 seconds to a few minutes to get all the containers running.
 
 
-### Install Python and simulation script on VM
+### Connect to Edge VM and download testing script to simulate clients
 Note: we use the same VM as the one running IoT Edge for ease of use. You could also run the client MQTT client scripts on another machine but then you would need to configure networking to allow incoming traffic on the VM.
 
 1. SSH into the Edge VM, if you are not yet logged in. You can use Cloud Shell for this.
-2. Install Python 3 on the VM:
-    ```
-    sudo apt-get update
-    sudo apt-get install -y python3-dev
-    sudo apt-get install -y libffi-dev
-    sudo apt-get install -y libssl-dev
-    sudo apt install python3-pip
-    sudo pip3 install paho-mqtt
-    ```
-3. Copy the file with the simulation of devices to the VM. This file can be found on /src/test/sim_clients.py
-    - If using Cloud Shell, first upload the file to the cloud shell storage/disk by using the Upload/download files option.
-4. Exit the SSH session and copy the file from local Cloud shell disk to your VM:
-    `scp sim_clients.py [youruser]@[yourVMIP]:/home/[your_user]/sim_clients.py `
-5. SSH back into the VM and validate the file is ready to be used: `ls` should return 'sim_clients.py'.
+User: azureuser
+Password: Passw0rd1234!
+
+2. Download the python script that will be used to test the identity translation solution:
+`wget https://raw.githubusercontent.com/andresu13/iot-identitytranslation-lab/main/src/test/sim_clients.py`
+
+
 
 ## Run the sample and simulate clients
 
-1. Using Visual Studio Code, with the Azure IoT Tools, start listening to telemetry messages from the IoT Edge device: right-click the Azure IoT Hub pane and choose 'Start Monitoring Built-in Event Endpoint'.<br>![Monitor built in endpoint](media/vscodemonitord2c.png)
+1. Using Visual Studio Code, with the Azure IoT Tools, start listening to telemetry messages from the IoT Edge device: right-click the Azure IoT Hub pane and choose **Start Monitoring Built-in Event Endpoint**.<br>![Monitor built in endpoint](media/vscodemonitord2c.png)
 2. Back in the Cloud Shell, SSH into the VM.
 3. Run the simulator script: 
 `python3 sim_clients.py -c 6 -n client -i 1`
@@ -154,7 +139,12 @@ Note: we use the same VM as the one running IoT Edge for ease of use. You could 
   }
 }
 ```
-5. After a few moments, the Azure Function will have executed, and the Identity Translation module will start being able to send messages with the leaf device identities, such as:
+5. After a few moments, the Azure Function will have executed, and the Identity Translation module will start being able to send messages with the leaf device identities.
+
+6. In Visual Studio Code, you can click the referesh button in the Azure IoT Hub pane to see the new device identities that were created.
+
+7. Right click on "client1" device and choose **Start Monitoring Built-in Event Endpoint** to start seeing the translated messages coming with the identity of client1.
+
 ```
 [IoTHubMonitor] [4:06:47 PM] Message received from [client1]:
 {
@@ -165,14 +155,10 @@ Note: we use the same VM as the one running IoT Edge for ease of use. You could 
   }
 }
 ```
+
 6. You might also want to check the logs for the Event Grid subscription and the Azure Function logs to see how it executed.
 7. To close down the script you can exit the sim_clients.py script running.
 
-
-### New steps (Added by Andres)
-
-1. Download sim_clients.py by running the following command:
-wget https://github.com/andresu13/iot-identitytranslation-lab/blob/main/test/sim_clients.py
 
 ### Clean up resources
 
