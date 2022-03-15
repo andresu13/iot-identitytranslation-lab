@@ -24,6 +24,10 @@ az iot hub create --name $iotHubName --resource-group $resourceGroupName --parti
 az iot hub device-identity create --hub-name $iotHubName --device-id edgeIdentityLite --edge-enabled
 iotEdgeConnectionString=`az iot hub device-identity connection-string show --device-id edgeIdentityLite --hub-name $iotHubName --query "connectionString" | tr -d '"'`
 
+# Create IoT Hub Access Policy
+
+az iot hub policy create --name itlpolicy --hub-name $iotHubName --permissions ServiceConnect RegistryRead RegistryWrite --resource-group $resourceGroupName
+
 #Create Storage Account and container
 az storage account create --name $stgName --resource-group $resourceGroupName
 stgConnectionString=`az storage account show-connection-string --name $stgName --query "connectionString" | tr -d '"'`
