@@ -44,9 +44,10 @@ We will use Visual Studio Code to pre-configure the Azure Function to run locall
 
 1. Clone this repo in your local computer (if you did not do it in the previous step)
 2. From this cloned repo, open the following project in Visual Studio code: /src/cloud/functions.
-3. If you get a message asking to initialize Azure Function with VSCode, say "Yes"
-3. Rename the `local.settings.json.temp` file into `local.settings.json`.
-4. Update the settings as follows:
+3. If you get a message asking to initialize the Azure Function with VSCode, select "Yes"
+[Initialize function](media/initialize-function.png)
+4. Rename the `local.settings.json.temp` file into `local.settings.json`.
+5. Update the settings as follows:
 ```
 {
     "IsEncrypted": false,
