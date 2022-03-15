@@ -43,13 +43,9 @@ We will use Visual Studio Code to pre-configure the Azure Function to run locall
 
 
 1. Clone this repo in your local computer (if you did not do it in the previous step)
-
-1. From this cloned repo, open the following project in Visual Studio code: /src/cloud/functions.
-2. Rename the `local.settings.json.temp` file into `local.settings.json`.
-3. We need to create a new access policy that has both ServiceConnect, RegistryRead and RegistryWrite permissions for connecting to IoT Hub: 
-`az iot hub policy create --name itlpolicy --hub-name [iothub-name] --permissions ServiceConnect RegistryRead RegistryWrite --resource-group [resourcegroup-name]`
-4. Retrieve the service connection string for IoT Hub [iothub-connectionstring] using Cloud Shell again: `az iot hub show-connection-string --name [iothub-name] --policy-name itlpolicy --key primary`
-5. Update the settings as follows:
+2. From this cloned repo, open the following project in Visual Studio code: /src/cloud/functions.
+3. Rename the `local.settings.json.temp` file into `local.settings.json`.
+4. Update the settings as follows:
 ```
 {
     "IsEncrypted": false,
@@ -65,12 +61,12 @@ We will use Visual Studio Code to pre-configure the Azure Function to run locall
 ```
 6. Publish the Function via Command Palette (View > Command Palette). Start typing Azure Function and choose 'Azure Functions: Deploy to Function App...'.
 7. Make sure you choose the option 'Create new Function App in Azure - Advanced'. This option allows you to select an existing resource group and more flexibility in settings.<br>![Function selection](media/function-deploy-adv.png)
-8. Make your selection for these options:
+8. Change **Azure Functions version** to 4 and then make your selection for these options:
     - Provide a function name: [function-name]
     - Runtime: .NET 6.0
     - OS: Linux
     - Hosting plan: Consumption
-    - Select resource gruop: make sure you select the resource group created in the first part of this guide.
+    - Select resource group: make sure you select the resource group created in the first part of this guide.
     - Create or choose an existing storage account.
     - Create a new Application Insights instance.
     - Select the same location [region] as where you deployed your resource group.
