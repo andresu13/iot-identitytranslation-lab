@@ -45,8 +45,10 @@ We will use Visual Studio Code to pre-configure the Azure Function to run locall
 1. Clone this repo in your local computer (if you did not do it in the previous step)
 2. From this cloned repo, open the following project in Visual Studio code: /src/cloud/functions.
 3. If you get a message asking to initialize the Azure Function with VSCode, select "Yes"
-[Initialize function](media/initialize-function.png)
-4. Rename the `local.settings.json.temp` file into `local.settings.json`.
+
+![Initialize function](media/initialize-function.png)
+
+<!--- 4. Rename the `local.settings.json.temp` file into `local.settings.json`. --->
 5. Update the settings as follows:
 ```
 {
@@ -62,7 +64,8 @@ We will use Visual Studio Code to pre-configure the Azure Function to run locall
 }
 ```
 6. Publish the Function via Command Palette (View > Command Palette). Start typing Azure Function and choose 'Azure Functions: Deploy to Function App...'.
-7. Make sure you choose the option 'Create new Function App in Azure - Advanced'. This option allows you to select an existing resource group and more flexibility in settings.<br>![Function selection](media/function-deploy-adv.png)
+7. Make sure you choose the option 'Create new Function App in Azure - Advanced'. This option allows you to select an existing resource group and more flexibility in settings.
+![Function selection](media/function-deploy-adv.png)
 8. Change **Azure Functions version** to 4 and then make your selection for these options:
     - Provide a function name: [function-name]
     - Runtime: .NET 6.0
