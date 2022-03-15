@@ -9,7 +9,7 @@ https://github.com/Azure-Samples/azure-iot-edge-identity-translation-lite
 
 1. Install Visual Studio Code.
 2. Install Azure IoT Tools extension in Visual Studio Code.
-3. Install .NET 6.0 SDK ?????
+3. Install .NET 6.0 SDK
 4. Install C# for Visual Studio Code (powered by OmniSharp) extension.
 5. Make sure you have the Azure Functions tools installed in Visual Studio Code.
 6. Make sure you have Docker Desktop on your machine, we will need it for building and pushing the images.
@@ -44,6 +44,7 @@ We will use Visual Studio Code to pre-configure the Azure Function to run locall
 
 1. Clone this repo in your local computer (if you did not do it in the previous step)
 2. From this cloned repo, open the following project in Visual Studio code: /src/cloud/functions.
+3. If you get a message asking to initialize Azure Function with VSCode, say "Yes"
 3. Rename the `local.settings.json.temp` file into `local.settings.json`.
 4. Update the settings as follows:
 ```
@@ -88,21 +89,6 @@ We'll use the Azure Portal to implement this section.
     - Change the Query section to the following: `itmtype = 'LeafEvent'`.
     - Click Save.
 
-### Create Azure Container Registry
-
-1. Using Azure Cloud Shell, run the following command to create your Azure Container registry: `az acr create --resource-group [resourcegroup-name] --name [acr-name] --sku Basic --admin-enabled true`
-2. Retrieve the username [acr-username] for logging into the registry in subsequent steps, and keep it handy: `az acr credential show --name [acr-name] --query username`
-3. Retrieve the password [acr-password]: `az acr credential show --name [acr-name] --query passwords[0].value`
-4. Retrieve the login server address: `az acr show -n [acr-name] --query loginServer`
-
-
-### Install and configure Azure IoT Edge on VM
-
-1. Follow the Prerequisites step in this [quickstart](https://docs.microsoft.com/en-us/azure/iot-edge/quickstart-linux#prerequisites). This will create the Azure Ubuntu based VM to run the sample on.
-2. Follow the step 'Configure your IoT Edge device' in the same [quickstart](https://docs.microsoft.com/en-us/azure/iot-edge/quickstart-linux#configure-your-iot-edge-device).
-3. Take note of the publid IP address as you will need it below.
-4. You now have a VM running, and we will deploy our modules to this in the next step.
-
 ### Deploy IoT Edge modules
 
 In this section we will use Visual Studio Code to configure, build and deploy the custom Identity Translation Lite modules. For this sample we also include an MQTT broker to serve as an unsecured entry point to messages from clients. Consider this MQTT broker, as well as the MQTT translation protocol module as samples, these will typically be replaced by your own protocol that you want to bridge.
@@ -122,6 +108,7 @@ In this section we will use Visual Studio Code to configure, build and deploy th
 8. In the dropdown on the command palette, select your edge device 'edgeIdentityLite'.
 9. Validate the modules got deployed and are running, either through the Azure Portal, or by SSH into your VM.
     - Via Cloud Shell run the ssh command to log into the machine `ssh azureuser@[yourvmipaddress]`
+    - Password is 'Passw0rd1234!'
     - Run the command `iotedge list` to view the running modules. You should see five modules running. Note it can take 30 seconds to a few minutes to get all the containers running.
 
 
