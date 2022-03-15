@@ -1,5 +1,9 @@
 # Step-by-step manual setup of the IoT Edge Identity Translation Lite sample 
 
+## Architecture
+
+![Initialize function](media/sampleflow.png)
+
 ## Prerequisites
 
 1. Install Visual Studio Code.
@@ -141,7 +145,7 @@ Password: Passw0rd1234!
 
 2. Download the python script that will be used to test the identity translation solution:
 ```shell
-`wget https://raw.githubusercontent.com/andresu13/iot-identitytranslation-lab/main/src/test/sim_clients.py`
+wget https://raw.githubusercontent.com/andresu13/iot-identitytranslation-lab/main/src/test/sim_clients.py
 ```
 
 
@@ -152,7 +156,7 @@ Password: Passw0rd1234!
 2. Back in the Cloud Shell, SSH into the VM.
 3. Run the simulator script:
 ```shell
-`python3 sim_clients.py -c 6 -n client -i 1`
+python3 sim_clients.py -c 6 -n client -i 1
 ```
 4. Leave it running for now, you can now go into Visual Studio Code and should see message logging for th creation of the devices such as this:
 ```
