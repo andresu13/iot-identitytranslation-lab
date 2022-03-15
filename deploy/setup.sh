@@ -37,7 +37,7 @@ az storage blob upload --container-name whitelist --name whitelistitm.txt --file
 # --template-uri "https://raw.githubusercontent.com/Azure/iotedge-vm-deploy/1.2/edgeDeploy.json" \
 az deployment group create \
 --resource-group $resourceGroupName \
---template-uri "https://raw.githubusercontent.com/andresu13/iot-identitytranslation-lab/main/edgeDeploy.json" \
+--template-uri "https://raw.githubusercontent.com/andresu13/iot-identitytranslation-lab/main/deploy/edgeDeploy.json" \
 --parameters dnsLabelPrefix=$vmName \
 --parameters adminUsername=$vm_user \
 --parameters deviceConnectionString=$iotEdgeConnectionString \

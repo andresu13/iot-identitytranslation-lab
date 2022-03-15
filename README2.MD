@@ -7,42 +7,41 @@ https://github.com/Azure-Samples/azure-iot-edge-identity-translation-lite
 
 ## Prerequisites
 
-1. Clone this repo.
-2. Install Visual Studio Code.
-3. Install Azure IoT Tools extension in Visual Studio Code.
-4. Install .NET 6.0 SDK.
-5. Install C# for Visual Studio Code (powered by OmniSharp) extension.
-6. Make sure you have the Azure Functions tools installed in Visual Studio Code.
-7. Make sure you have Docker Desktop on your machine, we will need it for building and pushing the images.
+1. Install Visual Studio Code.
+2. Install Azure IoT Tools extension in Visual Studio Code.
+3. Install .NET 6.0 SDK ?????
+4. Install C# for Visual Studio Code (powered by OmniSharp) extension.
+5. Make sure you have the Azure Functions tools installed in Visual Studio Code.
+6. Make sure you have Docker Desktop on your machine, we will need it for building and pushing the images.
 
 ## Setup
 
-### Create Azure IoT Hub and register IoT Edge device
-Note: if you already have an Azure IoT Hub account you wish to use you can skip this entire step.
+### Clone repo and deploy Azure resources
 
 1. Log into the Azure Portal and open up Cloud Shell with Bash. If you prefer you can use Azure CLI on your own machine.
 2. Make sure you have installed CLI extension for Azure IoT: 
 `az extension add --name azure-iot`
-3. Create a new resource group: `az group create --name [resourcegroup-name] --location "[region]"`
-4. Create Azure IoT Hub: `az iot hub create --name [iothub-name] --resource-group [resourcegroup-name] --partition-count 2 --sku S1`
-5. Register IoT Edge device: `az iot hub device-identity create --hub-name [iothub-name] --device-id edgeIdentityLite --edge-enabled`
-6. Retrieve the connection string for the device, to be used later: `az iot hub device-identity show-connection-string --device-id edgeIdentityLite --hub-name [iothub-name]`
+3. Clone this repo:
+`git clone https://github.com/andresu13/iot-identitytranslation-lab.git`
+4. Navigate to the deploy directory and change permissions of setup file:
+```shell
+cd iot-identitytranslation-lab/deploy
+chmod 755 setup.sh
+```
+5. Execute setup.sh file to deploy Azure resources that will be used in this lab (IoT Hub, IoT Edge, Storage Account)
+`./setup.sh`
+6. Wait for resources to be deployed. It might take a couple of minutes.
 
 
-### Create Azure Storage Account
-This account will host a whitelisting text file to contain the names of the devices that are considered as whitelisted.
-1. Using Cloud Shell, create a new storage account: 
-`az storage account create --name [storage-name] --resource-group [resourcegroup-name]`
-2. Retrieve connection string:
- `az storage account show-connection-string --name [storage-name]`. Copy the connection string to use in next statement.
-3. Create a new blob container:
-`az storage container create --account-name [storage-name] --connection-string "[storage-connectionstring]" --name whitelist`
-4. Upload the file [whitelistitm.txt](../src/cloud/functions/whitelistitm.txt) to the Bash Cloud shell environment: click the Upload/Download Files icon and upload the before mentioned file.
-5. Run the CLI for uploading to the container: `az storage blob upload --container-name whitelist --name whitelistitm.txt --file "whitelistitm.txt" --connection-string "[storage-connectionstring]"`
+
+
 
 ### Create and Publish Azure Function
 
 We will use Visual Studio Code to pre-configure the Azure Function to run locally in a subsequent step, as well as use VS Code to help us create and publish the Azure Function to Azure.
+
+
+1. Clone this repo in your local computer to create an Azure function
 
 1. From this cloned repo, open the following project in Visual Studio code: /src/cloud/functions.
 2. Rename the `local.settings.json.temp` file into `local.settings.json`.
