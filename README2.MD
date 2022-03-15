@@ -19,37 +19,43 @@ https://github.com/Azure-Samples/azure-iot-edge-identity-translation-lite
 ### Clone repo and deploy Azure resources
 
 1. Log into the Azure Portal and open up Cloud Shell with Bash. If you prefer you can use Azure CLI on your own machine.
-2. Make sure you have installed CLI extension for Azure IoT: 
-`az extension add --name azure-iot`
+2. Make sure you have installed CLI extension for Azure IoT:
+```shell
+az extension add --name azure-iot
+```
 3. Clone this repo:
-`git clone https://github.com/andresu13/iot-identitytranslation-lab.git`
+```shell
+git clone https://github.com/andresu13/iot-identitytranslation-lab.git
+```
 4. Navigate to the deploy directory and change permissions of setup file:
 ```shell
 cd iot-identitytranslation-lab/deploy
 chmod 755 setup.sh
 ```
 5. Execute setup.sh file to deploy Azure resources that will be used in this lab (IoT Hub, IoT Edge, Storage Account)
-`./setup.sh`
+```shell
+./setup.sh
+```
 6. Wait for resources to be deployed. It might take a couple of minutes.
-7. Take note of the connection strings the script outputs at the end.
-
-
-
+7. Take note of the connection strings that are displayed when the script finishes.
 
 
 ### Create and Publish Azure Function
 
-We will use Visual Studio Code to pre-configure the Azure Function to run locally in a subsequent step, as well as use VS Code to help us create and publish the Azure Function to Azure.
+We will use Visual Studio Code to pre-configure and publish the Azure Function to Azure.
 
 
 1. Clone this repo in your local computer (if you did not do it in the previous step)
-2. From this cloned repo, open the following project in Visual Studio code: /src/cloud/functions.
+```shell
+git clone https://github.com/andresu13/iot-identitytranslation-lab.git
+```
+2. From this cloned repo, open the following project in Visual Studio code: **/src/cloud/functions**.
 3. If you get a message asking to initialize the Azure Function with VSCode, select "Yes"
 
 ![Initialize function](media/initialize-function.png)
 
 <!--- 4. Rename the `local.settings.json.temp` file into `local.settings.json`. --->
-5. Update the settings as follows:
+5. Open **local.settings.json** file and update the settings as follows:
 ```
 {
     "IsEncrypted": false,
@@ -67,15 +73,21 @@ We will use Visual Studio Code to pre-configure the Azure Function to run locall
 7. Make sure you choose the option 'Create new Function App in Azure - Advanced'. This option allows you to select an existing resource group and more flexibility in settings.
 ![Function selection](media/function-deploy-adv.png)
 8. Change **Azure Functions version** to 4 and then make your selection for these options:
-    - Provide a function name: [function-name]
-    - Runtime: .NET 6.0
-    - OS: Linux
-    - Hosting plan: Consumption
-    - Select resource group: make sure you select the resource group created in the first part of this guide.
-    - Create or choose an existing storage account.
-    - Create a new Application Insights instance.
-    - Select the same location [region] as where you deployed your resource group.
-9. This will take a few minutes. When finished, you will see a confirmation at the bottom right. From there you have an option to Upload Settings (configuration settings), click this to push your local.settings.json configuration.<br>![function upload settings](media/function-deploy-config.png)<br>Typically you can choose not to overwrite the Storage setting as this one has been set when creating the Azure function.
+    - **Function name:** Enter a globally unique name
+    - **Runtime Stack:** .NET 6.0
+    - **OS:** Linux
+    - **Resource Group:** Select the resource group created by the setup.sh script (check script output)
+    - **Location:** Select the same location that was used for setup.sh script (Default: East US)
+    - **Hosting plan:** Consumption
+    - **Storage Account:** Select the storage account that setup.sh script created
+    - **Application Insights:** Create a new Application Insights resource with a unique name you specify
+
+9. This will take a few minutes. When finished, you will see a confirmation at the bottom right. From there you have an option to Upload Settings (configuration settings), click this to push your local.settings.json configuration.
+<br />
+
+![function upload settings](media/function-deploy-config.png)
+
+10. You can choose "No" to the overwrite storage setting question since that was already set when the Azure function was created.
 
 
 ### Configure Event Grid Subscription
@@ -83,29 +95,46 @@ We'll use the Azure Portal to implement this section.
 
 1. In Azure Portal, open your IoT Hub and choose Events.
 2. Choose 'Create new subscription'.
-3. Provide a name and make sure you select only 'Device Telemetry' for the the filter to event types.<br>![event subscription creation](media/eventgrid-create.png)
-4. Under the section 'Endpoint details', leave it to Azure Function and click 'Select an endpoint'.
-5. Choose the deployed Azure Function app. Under the Function dropdown you should see the LeafDeviceCloudEventGrid listed.<br>![event grid select funciton](media/eventgrid-functionselection.png)
-6. Confirm selection and then click 'Create'.
-7. Back on the Events screen, you can click Event Subscriptions, it should now show the newly created subscription.
-8. Next we want to filter the types of telemetry messages sent to Event Grid. We can do this using Event Grid subscription filters, but in our case we want to prevent sending all messages to the Event Grid endpoint so we will configure filtering at the IoT Hub 'Route' level.
-    - Go to 'Message routing'. You should see a newly created route 'RouteToEventGrid'. Click on this route to open the details.
-    - Change the Query section to the following: `itmtype = 'LeafEvent'`.
+3. Provide a name for the subscription and the topic.
+4. Make sure you select only 'Device Telemetry' for the the filter to event types.
+
+![event subscription creation](media/eventgrid-create.png)
+
+5. Under the section 'Endpoint details', leave it to Azure Function and click 'Select an endpoint'.
+6. Choose the deployed Azure Function app. Under the Function dropdown you should see the LeafDeviceCloudEventGrid listed.
+
+![event grid select funciton](media/eventgrid-functionselection.png)
+
+7. Confirm selection and then click 'Create'.
+8. Back on the Events screen, you can click Event Subscriptions, it should now show the newly created subscription.
+9. Next we want to filter the types of telemetry messages sent to Event Grid. We can do this using Event Grid subscription filters, but in our case we want to prevent sending all messages to the Event Grid endpoint so we will configure filtering at the IoT Hub 'Route' level.
+    - Go to 'Message routing' in the IoT Hub that was created.
+    - You should see a newly created route 'RouteToEventGrid'. Click on this route to open the details.
+    - Change the **Routing Query** section to the following:
+    ```shell
+    itmtype = 'LeafEvent'
+    ```
     - Click Save.
 
 ### Deploy IoT Edge modules
 
-In this section we will use Visual Studio Code to configure, build and deploy the custom Identity Translation Lite modules. For this sample we also include an MQTT broker to serve as an unsecured entry point to messages from clients. Consider this MQTT broker, as well as the MQTT translation protocol module as samples, these will typically be replaced by your own protocol that you want to bridge.
+In this section we will use Visual Studio Code to deploy the custom Identity Translation Lite modules. For this sample we also include an MQTT broker to serve as an unsecured entry point to messages from clients. Consider this MQTT broker, as well as the MQTT translation protocol module as samples, these will typically be replaced by your own protocol that you want to bridge.
 
-1. In Visual Studio Code, open the folder /src/edge/ from this cloned repo.
-2. Explore the modules folder to see the different Edge modules that will be deployed to the device. These modules have already been built and the docker images were uploaded to an ACR that setup for this lab.
-3. Ope folder /config from this clone repo to find the `deployment.debug.amd64.json` file.
-4. Right-click on `deployment.debug.amd64.json` file and choose 'Create deployment for single device'.
-5. In the dropdown on the command palette, select your edge device 'edgeIdentityLite'.
-9. Validate the modules got deployed and are running, either through the Azure Portal, or by SSH into your VM.
-    - Via Cloud Shell run the ssh command to log into the machine `ssh azureuser@[yourvmipaddress]`
-    - Password is 'Passw0rd1234!'
-    - Run the command `iotedge list` to view the running modules. You should see five modules running. Note it can take 30 seconds to a few minutes to get all the containers running.
+1. In Visual Studio Code, open the folder **/src/edge/** from this cloned repo.
+2. Explore the modules folder to see the different Edge modules that will be deployed to the device. These modules have already been built and the docker images were uploaded to an ACR that was specifically configured for this lab.
+3. Select your IoT Hub via Command Palette (View > Command Palette). Start typing Azure IoT Hub and choose **Azure IoT Hub: Select IoT Hub** to select the IoT Hub that was deployed for this lab
+4. Open folder **/config** from this clone repo to find the `deployment.debug.amd64.json` file.
+5. Right-click on `deployment.debug.amd64.json` file and choose 'Create deployment for single device'.
+6. In the dropdown on the command palette, select your Edge device **edgeIdentityLite**.
+7. You should get an output saying "Deployment succeeded"
+8. Validate the modules got deployed and are running, either through the Azure Portal, or by SSH into your VM.
+    - Via Cloud Shell run the ssh command to log into the machine:
+    ```shell
+    ssh azureuser@[yourvmipaddress]
+    ```
+    - **Password**: Passw0rd1234!
+    - Run the command `iotedge list` to view the running modules.
+    - You should see five modules running. Note it can take 30 seconds to a few minutes to get all the containers running.
 
 
 ### Connect to Edge VM and download testing script to simulate clients

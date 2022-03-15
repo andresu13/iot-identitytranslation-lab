@@ -3,8 +3,8 @@
     "Values": {
         "AzureWebJobsStorage": "<Storage Account Connection String>",
         "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-        "IoTHubConnectionString" : "IoT hub connection string (service, registry)",
-        "WhitelistStorageConnection": "Connection string for Azure Storage",
+        "IoTHubConnectionString" : "<IoT Hub Access Policy Connection String (service, registry)>",
+        "WhitelistStorageConnection": "<Storage Account Connection String>",
         "WhitelistContainerName": "whitelist",
         "WhitelistFilename": "whitelistitm.txt"
     }

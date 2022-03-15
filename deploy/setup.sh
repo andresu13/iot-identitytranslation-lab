@@ -49,9 +49,14 @@ az deployment group create \
 --parameters authenticationType="password" \
 --parameters adminPasswordOrKey=$vm_password
 
+vmip=`az vm show -d -g $resourceGroupName -n $vmName --query publicIps -o tsv`
+
 # Print information about resources created
 echo "Resource Group: "$resourceGroupName
 echo "IoT Hub Name: "$iotHubName
-echo "IoT Edge Connection String: "$iotEdgeConnectionString
+echo "Storage Account Name: "$stgName
 echo "Storage Account Connection String: "$stgConnectionString
 echo "IoT Hub Access Policy Connection String: "$iotHubAccessPolicy
+echo "IoT Edge VM Public IP: "$vmip
+
+#echo "IoT Edge Connection String: "$iotEdgeConnectionString
