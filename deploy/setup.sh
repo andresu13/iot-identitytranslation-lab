@@ -27,6 +27,7 @@ iotEdgeConnectionString=`az iot hub device-identity connection-string show --dev
 # Create IoT Hub Access Policy
 
 az iot hub policy create --name itlpolicy --hub-name $iotHubName --permissions ServiceConnect RegistryRead RegistryWrite --resource-group $resourceGroupName
+iotHubAccessPolicy=`az iot hub show-connection-string --name [iothub-name] --policy-name itlpolicy --key primary`
 
 #Create Storage Account and container
 az storage account create --name $stgName --resource-group $resourceGroupName
@@ -53,3 +54,4 @@ echo "Resource Group: "$resourceGroupName
 echo "IoT Hub Name: "$iotHubName
 echo "IoT Edge Connection String: "$iotEdgeConnectionString
 echo "Storage Account Connection String: "$stgConnectionString
+echo "IoT Hub Access Policy Connection String: "$iotHubAccessPolicy
