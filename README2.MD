@@ -31,6 +31,7 @@ chmod 755 setup.sh
 5. Execute setup.sh file to deploy Azure resources that will be used in this lab (IoT Hub, IoT Edge, Storage Account)
 `./setup.sh`
 6. Wait for resources to be deployed. It might take a couple of minutes.
+7. Take note of the connection strings the script outputs at the end.
 
 
 
@@ -41,7 +42,7 @@ chmod 755 setup.sh
 We will use Visual Studio Code to pre-configure the Azure Function to run locally in a subsequent step, as well as use VS Code to help us create and publish the Azure Function to Azure.
 
 
-1. Clone this repo in your local computer to create an Azure function
+1. Clone this repo in your local computer (if you did not do it in the previous step)
 
 1. From this cloned repo, open the following project in Visual Studio code: /src/cloud/functions.
 2. Rename the `local.settings.json.temp` file into `local.settings.json`.
