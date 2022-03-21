@@ -120,7 +120,7 @@ We'll use the Azure Portal to implement this section.
 In this section we will use Visual Studio Code to deploy the custom Identity Translation Lite modules. For this sample we also include an MQTT broker to serve as an unsecured entry point to messages from clients. Consider this MQTT broker, as well as the MQTT translation protocol module as samples, these will typically be replaced by your own protocol that you want to bridge.
 
 1. In Visual Studio Code, open the folder **/src/edge/** from this cloned repo.
-2. Explore the modules folder to see the different Edge modules that will be deployed to the device. These modules have already been built and the docker images were uploaded to an ACR that was specifically configured for this lab.
+2. Explore the modules folder to see the different Edge modules that will be deployed to the device. For this lab, the modules have already been previously built and the docker images have been uploaded to an ACR that was previosly created. You do not need to worry about building and creating docker images of these modules.
 3. Select your IoT Hub via Command Palette (View > Command Palette). Start typing Azure IoT Hub and choose **Azure IoT Hub: Select IoT Hub** to select the IoT Hub that was deployed for this lab
 4. Open folder **/config** from this clone repo to find the `deployment.debug.amd64.json` file.
 5. Right-click on `deployment.debug.amd64.json` file and choose 'Create deployment for single device'.
@@ -140,8 +140,8 @@ In this section we will use Visual Studio Code to deploy the custom Identity Tra
 Note: we use the same VM as the one running IoT Edge for ease of use. You could also run the client MQTT client scripts on another machine but then you would need to configure networking to allow incoming traffic on the VM.
 
 1. SSH into the Edge VM, if you are not yet logged in. You can use Cloud Shell for this.
-User: azureuser
-Password: Passw0rd1234!
+- **User:** azureuser
+- **Password:** Passw0rd1234!
 
 2. Download the python script that will be used to test the identity translation solution:
 ```shell
@@ -206,5 +206,5 @@ To remove everything you created you can simply delete the Resource Group in Azu
 
 This lab is based on the work done by the collaborators of this repo: https://github.com/Azure-Samples/azure-iot-edge-identity-translation-lite
 
-Some steps have been automated to simplify the lab delivery.
+Some steps have been automated to simplify the delivery of this lab in a shorter amount of time.
 

@@ -17,10 +17,10 @@ stgName=$prefix"stg"$randomNum
 vmName=$prefix"vm"$randomNum
 
 # # Create resource group 
-az group create --name $resourceGroupName --location eastus
+az group create --name $resourceGroupName --location $location
 
 # Create IoT Hub and IoT Edge identity
-az iot hub create --name $iotHubName --resource-group $resourceGroupName --partition-count 2 --sku S1
+az iot hub create --name $iotHubName --resource-group $resourceGroupName --partition-count 2 --sku S1 --location $location
 az iot hub device-identity create --hub-name $iotHubName --device-id edgeIdentityLite --edge-enabled
 iotEdgeConnectionString=`az iot hub device-identity connection-string show --device-id edgeIdentityLite --hub-name $iotHubName --query "connectionString" | tr -d '"'`
 
@@ -30,7 +30,7 @@ az iot hub policy create --name itlpolicy --hub-name $iotHubName --permissions S
 iotHubAccessPolicy=`az iot hub connection-string show --hub-name $iotHubName --policy-name itlpolicy --key primary --query "connectionString" | tr -d '"'`
 
 #Create Storage Account and container
-az storage account create --name $stgName --resource-group $resourceGroupName
+az storage account create --name $stgName --resource-group $resourceGroupName --location $location
 stgConnectionString=`az storage account show-connection-string --name $stgName --query "connectionString" | tr -d '"'`
 az storage container create --account-name $stgName --connection-string $stgConnectionString --name whitelist
 
