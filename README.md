@@ -18,25 +18,30 @@
 ### Clone repo and deploy Azure resources
 
 1. Log into the Azure Portal and open up Cloud Shell with Bash. If you prefer you can use Azure CLI on your own machine.
-2. Make sure you have installed CLI extension for Azure IoT:
+2. If you have not previously installed the CLI extension for Azure IoT inside of Cloud Shell, you can install with the following commmand:
 ```shell
 az extension add --name azure-iot
 ```
-3. Clone this repo:
+
+3. If you have installed the CLI extenion in the past, run this command to ensure you are running the latest version of the extension.
+```shell
+az extension update --name azure-iot
+```
+4. Clone this repo:
 ```shell
 git clone https://github.com/andresu13/iot-identitytranslation-lab.git
 ```
-4. Navigate to the deploy directory and change permissions of setup file:
+5. Navigate to the deploy directory and change permissions of setup file:
 ```shell
 cd iot-identitytranslation-lab/deploy
 chmod 755 setup.sh
 ```
-5. Execute setup.sh file to deploy Azure resources that will be used in this lab (IoT Hub, IoT Edge, Storage Account)
+6. Execute setup.sh file to deploy Azure resources that will be used in this lab (IoT Hub, IoT Edge, Storage Account)
 ```shell
 ./setup.sh
 ```
-6. Wait for resources to be deployed. It might take a couple of minutes.
-7. Take note of the connection strings that are displayed when the script finishes.
+7. Wait for resources to be deployed. It might take a couple of minutes.
+8. Take note of the connection strings that are displayed when the script finishes.
 
 
 ### Create and Publish Azure Function
