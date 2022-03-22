@@ -127,7 +127,8 @@ In this section we will use Visual Studio Code to deploy the custom Identity Tra
 1. In Visual Studio Code, open the folder **/src/edge/** from this cloned repo.
 2. Explore the modules folder to see the different Edge modules that will be deployed to the device. For this lab, the modules have already been previously built and the docker images have been uploaded to an ACR that was previosly created. You do not need to worry about building and creating docker images of these modules.
 3. Select your IoT Hub via Command Palette (View > Command Palette). Start typing Azure IoT Hub and choose **Azure IoT Hub: Select IoT Hub** to select the IoT Hub that was deployed for this lab
-4. Open folder **/config** from this clone repo to find the `deployment.debug.amd64.json` file.
+4. Open folder **/config** from this clone repo and open the `deployment.debug.amd64.json` file.
+5. Update the **username**, **password** and **address** variables with the information provided during the lab session.
 5. Right-click on `deployment.debug.amd64.json` file and choose 'Create deployment for single device'.
 6. In the dropdown on the command palette, select your Edge device **edgeIdentityLite**.
 7. You should get an output saying "Deployment succeeded"
