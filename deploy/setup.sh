@@ -21,18 +21,18 @@ az group create --name $resourceGroupName --location $location
 
 # Create IoT Hub and IoT Edge identity
 az iot hub create --name $iotHubName --resource-group $resourceGroupName --partition-count 2 --sku S1 --location $location
-az iot hub device-identity create --hub-name $iotHubName --device-id edgeIdentityLite --edge-enabled
+az iot hub device-identity create --hub-name $iotHubName --device-id edgeIdentityLite --edge-enabled --resource-group $resourceGroupName
 iotEdgeConnectionString=`az iot hub device-identity connection-string show --device-id edgeIdentityLite --hub-name $iotHubName --query "connectionString" | tr -d '"'`
 
 # Create IoT Hub Access Policy
 
 az iot hub policy create --name itlpolicy --hub-name $iotHubName --permissions ServiceConnect RegistryRead RegistryWrite --resource-group $resourceGroupName
-iotHubAccessPolicy=`az iot hub connection-string show --hub-name $iotHubName --policy-name itlpolicy --key primary --query "connectionString" | tr -d '"'`
+iotHubAccessPolicy=`az iot hub connection-string show --hub-name $iotHubName --policy-name itlpolicy --key primary --resource-group $resourceGroupName --query "connectionString" | tr -d '"'`
 
 #Create Storage Account and container
 az storage account create --name $stgName --resource-group $resourceGroupName --location $location
-stgConnectionString=`az storage account show-connection-string --name $stgName --query "connectionString" | tr -d '"'`
-az storage container create --account-name $stgName --connection-string $stgConnectionString --name whitelist
+stgConnectionString=`az storage account show-connection-string --name $stgName --resource-group $resourceGroupName --query "connectionString" | tr -d '"'`
+az storage container create --account-name $stgName --connection-string $stgConnectionString --resource-group $resourceGroupName --name whitelist
 
 #Create whitelist file and upload to container
 printf "myleafDevice1\nmyleafDevice2\nmyleafDevice3\nclient0\nclient1\nclient3\nclient4\nclient5" > whitelistitm.txt
