@@ -49,7 +49,7 @@ chmod 755 setup.sh
 We will use Visual Studio Code to pre-configure and publish the Azure Function to Azure.
 
 
-1. Clone this repo in your local computer (if you did not do it in the previous step)
+1. Clone this repo in your local computer (if you did not do it in the previous section)
 ```shell
 git clone https://github.com/andresu13/iot-identitytranslation-lab.git
 ```
