@@ -22,7 +22,7 @@ az group create --name $resourceGroupName --location $location
 # Create IoT Hub and IoT Edge identity
 az iot hub create --name $iotHubName --resource-group $resourceGroupName --partition-count 2 --sku S1 --location $location
 az iot hub device-identity create --hub-name $iotHubName --device-id edgeIdentityLite --edge-enabled --resource-group $resourceGroupName
-iotEdgeConnectionString=`az iot hub device-identity connection-string show --device-id edgeIdentityLite --hub-name $iotHubName --query "connectionString" | tr -d '"'`
+iotEdgeConnectionString=`az iot hub device-identity connection-string show --device-id edgeIdentityLite --resource-group $resourceGroupName --hub-name $iotHubName --query "connectionString" | tr -d '"'`
 
 # Create IoT Hub Access Policy
 
