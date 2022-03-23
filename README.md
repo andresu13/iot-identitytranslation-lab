@@ -11,7 +11,6 @@
 3. Install .NET 6.0 SDK
 4. Install C# for Visual Studio Code (powered by OmniSharp) extension.
 5. Make sure you have the Azure Functions tools installed in Visual Studio Code.
-6. Make sure you have Docker Desktop on your machine, we will need it for building and pushing the images.
 
 ## Setup
 
