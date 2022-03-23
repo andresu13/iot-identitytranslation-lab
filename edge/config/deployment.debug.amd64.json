@@ -10,7 +10,7 @@
             "loggingOptions": "",
             "registryCredentials": {
               "myRegistryName": {
-                "username": "<USERNAME1>",
+                "username": "<USERNAME>",
                 "password": "<PASSWORD>",
                 "address": "<ADDRESS>"
               }
