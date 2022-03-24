@@ -21,7 +21,7 @@
           "edgeAgent": {
             "type": "docker",
             "settings": {
-              "image": "mcr.microsoft.com/azureiotedge-agent:1.2.6",
+              "image": "mcr.microsoft.com/azureiotedge-agent:1.2.7",
               "createOptions": "{}"
             }
           },
