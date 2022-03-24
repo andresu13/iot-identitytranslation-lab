@@ -10,9 +10,9 @@
             "loggingOptions": "",
             "registryCredentials": {
               "myRegistryName": {
-                "username": "iotidtranslationacr",
-                "password": "xdxaBZXeGlIF/MWb+tbgD8XCFl8JE8o5",
-                "address": "iotidtranslationacr.azurecr.io"
+                "username": "<USERNAME>",
+                "password": "<PASSWORD>",
+                "address": "<ADDRESS>"
               }
             }
           }
