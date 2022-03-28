@@ -22,7 +22,7 @@
 az extension add --name azure-iot
 ```
 
-3. If you have installed the CLI extenion in the past, run this command to ensure you are running the latest version of the extension.
+3. If you had already installed the Azure IoT CLI extension prior to this lab, run this command to ensure you are running the latest version of the extension. The deploymen script **will fail** if you do not have the latest version of the extension.
 ```shell
 az extension update --name azure-iot
 ```
