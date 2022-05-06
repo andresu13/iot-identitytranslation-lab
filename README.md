@@ -1,4 +1,4 @@
-# Step-by-step manual setup of the IoT Edge Identity Translation Lite sample 
+# Automated of the IoT Edge Identity Translation Lite sample 
 
 ## Architecture
 
