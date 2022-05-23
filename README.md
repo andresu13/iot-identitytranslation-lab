@@ -1,4 +1,4 @@
-# Automated of the IoT Edge Identity Translation Lite sample 
+# IoT Edge Identity Translation Lite Sample (Automated Script)
 
 ## Architecture
 
